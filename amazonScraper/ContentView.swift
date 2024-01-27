@@ -27,8 +27,15 @@ struct ContentView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             Button(action: {
-                if var urlLink = URL(string: urlText), UIApplication.shared.canOpenURL(urlLink) {
-//                     imgUrl = getProductImage(url: urlLink)
+                if let range = urlText.range(of: "https") {
+                    let result = String(urlText[range.lowerBound...])
+                    urlText = result
+                    print(result)
+                } else {
+                    print("Substring 'https' not found")
+                }
+                    if var urlLink = URL(string: urlText), UIApplication.shared.canOpenURL(urlLink) {
+                    
                     getRealImage(url: URL(string:urlText)!) { result in
                         switch result {
                         case .success(let imgURL):
