@@ -28,10 +28,11 @@ struct ContentView: View {
                 .padding()
             Button(action: {
                 if let range = urlText.range(of: "https") {
-                    let result = String(urlText[range.lowerBound...])
+                    var result = String(urlText[range.lowerBound...])
+                    result = result.trimmingCharacters(in: .whitespacesAndNewlines)
                     urlText = result
                     print(result)
-                } else {
+                } else {  
                     print("Substring 'https' not found")
                 }
                     if var urlLink = URL(string: urlText), UIApplication.shared.canOpenURL(urlLink) {

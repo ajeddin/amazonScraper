@@ -20,23 +20,15 @@ func getProductImage(url: URL, completion: @escaping (Result<(String,String,Stri
         }
         do {
             let doc: Document = try SwiftSoup.parseBodyFragment(html)
-//            dp-container
             let container: Element = try doc.getElementById("dp-container")!
-//            print(img2)
             let titleElement: Element = try container.getElementById("productTitle")!
             guard let title = try? titleElement.text() else { return }
-//            print(title)
-print(container)
-//            let priceElement: Element = try container.getElementsByClass("a-offscreen").first()!
-//            guard let price = try? priceElement.text() else { return }
-            let container2: Element = try doc.getElementsByClass("a-box a-last").first()!
-            let container3: Element = try container2.getElementsByClass("a-price-whole").first()!
-            let container4: Element = try container2.getElementsByClass("a-price-fraction").first()!
 
-print(container3)
-            guard let priceWhole = try? container3.text() else { return }
-            guard let pricefraction = try? container4.text() else { return }
-            let price = priceWhole+pricefraction
+            let rating: Element = try doc.getElementById("acrPopover")!
+            var ratingText = try rating.text()
+//            print(/*container1*/)
+//            guard let price = try? container2.val() else { return }
+//            guard let pricefraction = try? container4.text() else { return }
             
 //            if price.isEmpty{
 //                let container2: Element = try doc.getElementsByClass("a-box a-last").first()!
@@ -44,12 +36,17 @@ print(container3)
 //print(container3)
 //                guard let price = try? container2.text() else { return }
 
-
+//            let price = "0"
 //            }
             let imageElement: Element = try container.select("#imgTagWrapperId img").first()!
-//            print(img1)
-            print(price)
-
+//            $('[data-feature-name=corePrice] span').innerText.split('\n')[0]
+//            print(doc)
+//            let element: Element = try doc.select("[data-feature-name=corePrice]").first()!
+//            print("element")
+//            print(element)
+//            let rating: Element = try doc.select("[data-feature-name=corePrice] span").first()!
+//            var ratingText = try rating.text().split(separator: "$")[0]
+//            print(ratingText)
             let imgLink = try imageElement.attr("src")
 //            print("src attribute value: \(srcValue)")
 //            let img: Element = try img1.select("img[src$=.png]").first()!
@@ -58,7 +55,7 @@ print(container3)
 //            let imgUrl = getImageUrl(imgOuterHtml)
 //            print(imgUrl)
             
-            completion(.success((imgLink,price,title)))
+            completion(.success((imgLink,ratingText,title)))
         } catch {
             completion(.failure(error))
         }
@@ -79,6 +76,7 @@ func getRealImage(url: URL, completion: @escaping (Result<String, Error>) -> Voi
         
         do {
             let doc: Document = try SwiftSoup.parseBodyFragment(html)
+            print(doc)
             let linkOut: Element = try doc.select("link[rel=canonical]").first()!
             let links: String = try linkOut.outerHtml()
 //            let link = getImageUrl(links)
