@@ -20,6 +20,7 @@ struct ContentView: View {
     @State var imgUrl : String = ""
     @State var price : String = ""
     @State var title : String = ""
+    @State var test : Any = ""
     var body: some View {
         
         VStack {
@@ -49,7 +50,6 @@ struct ContentView: View {
                                     imgUrl = imgURL.0
                                     price = imgURL.1
                                     title = imgURL.2
-                                    
                                 case .failure(let error):
                                     print("Error: \(error)")
                                 }
@@ -76,7 +76,7 @@ struct ContentView: View {
                      .font(.caption)
                  }
             if (isValidLink){
-                Text("\(price) \n \(title)")
+                Text("\(price) \n \(title)\n")
                 AsyncImage(url: URL(string: imgUrl)) { phase in
                                 if let image = phase.image {
                                     image
